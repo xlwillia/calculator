@@ -1,6 +1,6 @@
 # Calculator
 
-This is a calculation multitool made using Vue, Tailwind, and daisyUI
+This is a calculation multitool made using Vue, Vite, Tailwind, daisyUI, and mathjs
 
 ## Project Setup
 
