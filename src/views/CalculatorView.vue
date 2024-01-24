@@ -1,31 +1,32 @@
 <template>
     <div class="calculator">
         <h1 class="text-lg font-semibold p-1">Calculator</h1>
-        <div class="grid grid-cols-4">
-            <textarea class="textarea textarea-bordered w-full resize-none col-span-4" v-model="screen"></textarea>
-            <button type="button" class="btn" @click="screenClear()">C</button>
-            <button type="button" class="btn" @click="keypadType('SIN')">SIN</button>
-            <button type="button" class="btn" @click="keypadType('COS')">COS</button>
-            <button type="button" class="btn" @click="keypadType('TAN')">TAN</button>
-            <button type="button" class="btn" @click="keypadType('^')">^</button>
-            <button type="button" class="btn" @click="keypadType('sqrt')">&Sqrt;</button>
-            <button type="button" class="btn" @click="keypadType('/')">&divide;</button>
-            <button type="button" class="btn" @click="keypadType('*')">&times;</button>
-            <button type="button" class="btn" @click="keypadType('-')">-</button>
-            <button type="button" class="btn" @click="keypadType('+')">+</button>
-            <button type="button" class="btn" @click="keypadType('9')">9</button>
-            <button type="button" class="btn" @click="keypadType('8')">8</button>
-            <button type="button" class="btn" @click="keypadType('7')">7</button>
-            <button type="button" class="btn" @click="keypadType('6')">6</button>
-            <button type="button" class="btn" @click="keypadType('5')">5</button>
-            <button type="button" class="btn" @click="keypadType('4')">4</button>
-            <button type="button" class="btn" @click="keypadType('3')">3</button>
-            <button type="button" class="btn" @click="keypadType('2')">2</button>
-            <button type="button" class="btn" @click="keypadType('1')">1</button>
-            <button type="button" class="btn" @click="keypadType('0')">0</button>
-            <button type="button" class="btn" @click="keypadType('.')">.</button>
-            <button type="button" class="btn" @click="keypadType('pi')">&pi;</button>
-            <button type="button" class="btn col-span-2" @click="funcEval()">=</button>
+        <div class="grid grid-cols-4 gap-1">
+            <div class="card border-solid border-4 border-secondary col-span-4">
+                <div class="card-body">
+                    <p>{{ screen }}</p>
+                </div>
+            </div>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="screenClear()">C</button>
+            <span class="col-span-3"></span>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('9')">9</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('8')">8</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('7')">7</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('*')">&times;</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('6')">6</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('5')">5</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('4')">4</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('/')">&divide;</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('3')">3</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('2')">2</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('1')">1</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('+')">+</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('0')">0</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('pi')">&pi;</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('.')">.</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('-')">-</button>
+            <span class="col-span-2"></span>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg col-span-2" @click="funcEval()">=</button>
         </div>
     </div>
 </template>
