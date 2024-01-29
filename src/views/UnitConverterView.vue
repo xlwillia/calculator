@@ -44,126 +44,877 @@
 </template>
 <script>
     export default {
-        mounted(){
-
-        },
-        data(){
+        data() {
             return {
-                //Types
-                measurementTypes: [
-                    'length', 
-                    'temperature', 
-                    'area', 
-                    'volume', 
-                    'weight',
-                    'data'
-                ],
-                selectedType: null,
+            // Types
+            measurementTypes: [
+                'length',
+                'temperature',
+                'area',
+                'volume',
+                'weight',
+                'data'
+            ],
+            selectedType: null,
 
-                unitTypes: {
-                    length:['kilometer', 'meter', 'centimeter', 'millimeter', 'micrometer', 'mile', 'yard', 'foot', 'inch'],
-                    temperature:['fahrenheit', 'celsius', 'kelvin', 'rankine'],
-                    area:['square kilometer', 'square meter', 'square centimeter', 'square millimeter', 'square micrometer', 'hectare', 'square mile', 'square yard', 'square foot', 'square inch', 'acre', ],
-                    volume:['cubic kilometer', 'cubic meter',  'cubic centimeter', 'cubic millimeter', 'cubic mile', 'cubic yard', 'cubic foot', 'cubic inch', 'liter', 'milliliter', 'us gallon', 'us quart', 'us pint', 'us fluid ounce', 'us table spoon', 'us tea spoon'],
-                    weight:['kilogram', 'gram', 'milligram', 'metric ton', 'long ton', 'short ton', 'pound', 'ounce', 'carat'],
-                    data:['bit', 'byte', 'kilobit', 'kilobyte', 'megabit', 'megabyte', 'gigabit', 'gigabyte', 'terabit', 'terabyte', 'petabit', 'petabyte', 'exabit', 'exabyte']
-                },
-                leftSelectedUnit:null,
-                rightSelectedUnit:null,
+            unitTypes: {
+                length: ['kilometer', 'meter', 'centimeter', 'millimeter', 'micrometer', 'mile', 'yard', 'foot', 'inch'],
+                temperature: ['fahrenheit', 'celsius', 'kelvin', 'rankine'],
+                area: ['square kilometer', 'square meter', 'square centimeter', 'square millimeter', 'square micrometer', 'hectare', 'square mile', 'square yard', 'square foot', 'square inch', 'acre'],
+                volume: ['cubic kilometer', 'cubic meter', 'cubic centimeter', 'cubic millimeter', 'cubic mile', 'cubic yard', 'cubic foot', 'cubic inch', 'liter', 'milliliter', 'us gallon', 'us quart', 'us pint', 'us fluid ounce', 'us table spoon', 'us tea spoon'],
+                weight: ['kilogram', 'gram', 'milligram', 'metric ton', 'long ton', 'short ton', 'pound', 'ounce', 'carat'],
+                data: ['bit', 'byte', 'kilobit', 'kilobyte', 'megabit', 'megabyte', 'gigabit', 'gigabyte', 'terabit', 'terabyte', 'petabit', 'petabyte', 'exabit', 'exabyte']
+            },
+            leftSelectedUnit: null,
+            rightSelectedUnit: null,
 
-                leftScreen: 0,
-                rightScreen: 0,
-            }
+            leftScreen: 0,
+            rightScreen: 0,
+            };
         },
         methods: {
-            convert(screenChanged){
-                // A bunch of else ifs might not be the best idea...
-                if (screenChanged === 'left'){
+            convert(screenChanged) {
+                // Thanks Google Bard for teaching me how to create a look up table
+                const conversions = {
+                    // LENGTH conversions
+                    'kilometer': {
+                        'meter': (value) => value,
+                        'centimeter': (value) => value,
+                        'millimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'mile': (value) => value,
+                        'yard': (value) => value,
+                        'foot': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'meter': {
+                        'kilometer': (value) => value,
+                        'centimeter': (value) => value,
+                        'millimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'mile': (value) => value,
+                        'yard': (value) => value,
+                        'foot': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'centimeter':{
+                        'kilometer': (value) => value,
+                        'meter': (value) => value,
+                        'millimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'mile': (value) => value,
+                        'yard': (value) => value,
+                        'foot': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'millimeter': {
+                        'kilometer': (value) => value,
+                        'meter': (value) => value,
+                        'centimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'mile': (value) => value,
+                        'yard': (value) => value,
+                        'foot': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'micrometer': {
+                        'kilometer': (value) => value,
+                        'meter': (value) => value,
+                        'centimeter': (value) => value,
+                        'millimeter': (value) => value,
+                        'mile': (value) => value,
+                        'yard': (value) => value,
+                        'foot': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'mile': {
+                        'kilometer': (value) => value,
+                        'meter': (value) => value,
+                        'centimeter': (value) => value,
+                        'millimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'yard': (value) => value,
+                        'foot': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'yard': {
+                        'kilometer': (value) => value,
+                        'meter': (value) => value,
+                        'centimeter': (value) => value,
+                        'millimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'mile': (value) => value,
+                        'foot': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'foot': {
+                        'kilometer': (value) => value,
+                        'meter': (value) => value,
+                        'centimeter': (value) => value,
+                        'millimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'mile': (value) => value,
+                        'yard': (value) => value,
+                        'inch': (value) => value,
+                    },
+                    'inch': {
+                        'kilometer': (value) => value,
+                        'meter': (value) => value,
+                        'centimeter': (value) => value,
+                        'millimeter': (value) => value,
+                        'micrometer': (value) => value,
+                        'mile': (value) => value,
+                        'yard': (value) => value,
+                        'foot': (value) => value,
+                    },
+
+                    // TEMPERATURE conversions
+                    'fahrenheit': {
+                        'celsius': (value) => value,
+                        'kelvin': (value) => value,
+                        'rankine': (value) => value,
+                    },
+                    'celsius': {
+                        'fahrenheit': (value) => value,
+                        'kelvin': (value) => value,
+                        'rankine': (value) => value,
+                    },
+                    'kelvin': {
+                        'fahrenheit': (value) => value,
+                        'celsius': (value) => value,
+                        'rankine': (value) => value,
+                    },
+                    'rankine': {
+                        'fahrenheit': (value) => value,
+                        'celsius': (value) => value,
+                        'kelvin': (value) => value,
+                    },
+
+                    // AREA conversions
+                    'square kilometer': {
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square meter': {
+                        'square kilometer': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square centimeter': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square millimeter': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square micrometer': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'hectare': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square mile': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square yard': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square foot': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square inch': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'square inch': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'acre': (value) => value,
+                    },
+                    'acre': {
+                        'square kilometer': (value) => value,
+                        'square meter': (value) => value,
+                        'square centimeter': (value) => value,
+                        'square millimeter': (value) => value,
+                        'hectare': (value) => value,
+                        'square mile': (value) => value,
+                        'square yard': (value) => value,
+                        'square foot': (value) => value,
+                        'square inch': (value) => value,
+                    },
+
+                    // VOLUME conversions
+                    'cubic kilometer': {
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,                  
+                    },
+                    'cubic meter': {
+                        'cubic kilometer': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'cubic centimeter': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'cubic millimeter': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'cubic mile': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'cubic yard': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'cubic foot': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'cubic inch': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'liter': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'milliliter': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'us gallon': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'us quart': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'us pint': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'us fluid ounce': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'cubic kilometer': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'gallon': (value) => value,
+                        'us table spoon': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'us table spoon': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us tea spoon': (value) => value,
+                    },
+                    'us tea spoon': {
+                        'cubic kilometer': (value) => value,
+                        'cubic meter': (value) => value,
+                        'cubic centimeter': (value) => value,
+                        'cubic millimeter': (value) => value,
+                        'cubic mile': (value) => value,
+                        'cubic yard': (value) => value,
+                        'cubic foot': (value) => value,
+                        'cubic inch': (value) => value,
+                        'liter': (value) => value,
+                        'milliliter': (value) => value,
+                        'us gallon': (value) => value,
+                        'us quart': (value) => value,
+                        'us pint': (value) => value,
+                        'us fluid ounce': (value) => value,
+                        'us table spoon': (value) => value,
+                    },
+
+                    // WEIGHT conversions
+                    'kilogram': {
+                        'gram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'milligram': (value) => value,
+                        'pound': (value) => value,
+                        'ounce': (value) => value,
+                        'carat': (value) => value,
+                    },
+                    'gram': {
+                        'kilogram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'milligram': (value) => value,
+                        'pound': (value) => value,
+                        'ounce': (value) => value,
+                        'carat': (value) => value,
+
+                    },
+                    'milligram': {
+                        'kilogram': (value) => value,
+                        'gram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'short ton': (value) => value,
+                        'pound': (value) => value,
+                        'ounce': (value) => value,
+                        'carat': (value) => value,
+                    },
+                    'metric ton': {
+                        'kilogram': (value) => value,
+                        'gram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'short ton': (value) => value,
+                        'pound': (value) => value,
+                        'carat': (value) => value,
+                    },
+                    'long ton': {
+                        'kilogram': (value) => value,
+                        'gram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'short ton': (value) => value,
+                        'pound': (value) => value,
+                        'ounce': (value) => value,
+                        'carat': (value) => value,
+                    },
+                    'short ton': {
+                        'kilogram': (value) => value,
+                        'gram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'pound': (value) => value,
+                        'ounce': (value) => value,
+                        'carat': (value) => value,
+                    },
+                    'pound': {
+                        'kilogram': (value) => value,
+                        'gram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'short ton': (value) => value,
+                        'ounce': (value) => value,
+                        'carat': (value) => value,
+                    },
+                    'ounce': {
+                        'kilogram': (value) => value,
+                        'gram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'short ton': (value) => value,
+                        'pound': (value) => value,
+                        'carat': (value) => value,
+                    },
+                    'carat': {
+                        'kilogram': (value) => value,
+                        'gram': (value) => value,
+                        'milligram': (value) => value,
+                        'metric ton': (value) => value,
+                        'long ton': (value) => value,
+                        'short ton': (value) => value,
+                        'pound': (value) => value,
+                        'ounce': (value) => value,
+                    },
+
+                    // DATA conversions
+                    'bit': {
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'byte': {
+                        'bit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabyte': (value) => value,
+                        'kibibyte': (value) => value,
+                        'mebibyte': (value) => value,
+                        'gibibyte': (value) => value,
+                        'tibibyte': (value) => value,
+                        'pebibyte': (value) => value,
+                        'exbibyte': (value) => value,
+                    },
+                    'kilobit': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'kilobyte': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'megabit': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'megabyte': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'gigabit': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'gigabyte': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'terabit': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'terabyte': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'petabit': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabyte': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'petabyte': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'exabit': (value) => value,
+                        'exabyte': (value) => value,
+                    },
+                    'exabit': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                    },
+                    'exabyte': {
+                        'bit': (value) => value,
+                        'byte': (value) => value,
+                        'kilobit': (value) => value,
+                        'kilobyte': (value) => value,
+                        'megabit': (value) => value,
+                        'megabyte': (value) => value,
+                        'gigabit': (value) => value,
+                        'gigabyte': (value) => value,
+                        'terabit': (value) => value,
+                        'terabyte': (value) => value,
+                        'petabit': (value) => value,
+                        'petabyte': (value) => value,
+                    },
+                };
+
+                if (screenChanged === 'left') {
                     if (this.leftSelectedUnit === this.rightSelectedUnit) {
-                        this.rightScreen = this.leftScreen
-                    /* LENGTH */
+                        this.rightScreen = this.leftScreen;
+                    } else {
+                        const conversion = conversions[this.leftSelectedUnit][this.rightSelectedUnit];
+                        if (conversion) {
+                            this.rightScreen = conversion(this.leftScreen);
+                        } else {
+                            console.error('Conversion not implemented:', this.leftSelectedUnit, 'to', this.rightSelectedUnit);
+                        }
                     }
-                    /* TEMPERATURE */
-                    // FAHRENHEIT
-                    else if (this.leftSelectedUnit === 'fahrenheit' && this.rightSelectedUnit === 'kelvin'){
-                        this.rightScreen = (this.leftScreen-32)*(5/9)+273.15
-                    }else if (this.leftSelectedUnit === 'fahrenheit' && this.rightSelectedUnit === 'celsius'){
-                        this.rightScreen = (this.leftScreen-32)*(5/9)
-                    }else if (this.leftSelectedUnit === 'fahrenheit' && this.rightSelectedUnit === 'rankine'){
-                        this.rightScreen = this.leftScreen+459.67
-                    }
-                    // CELSIUS
-                    else if (this.leftSelectedUnit === 'celsius' && this.rightSelectedUnit === 'kelvin'){
-                        this.rightScreen = this.leftScreen+273.15
-                    }else if (this.leftSelectedUnit === 'celsius' && this.rightSelectedUnit === 'fahrenheit'){
-                        this.rightScreen = this.leftScreen*(9/5)+32
-                    }else if (this.leftSelectedUnit === 'celsius' && this.rightSelectedUnit === 'rankine'){
-                        this.rightScreen = this.leftScreen*(9/5)+491.67
-                    }
-                    // KELVIN
-                    else if (this.leftSelectedUnit === 'kelvin' && this.rightSelectedUnit === 'rankine'){
-                        this.rightScreen = (this.leftScreen-273.15)*(9/5)
-                    }else if (this.leftSelectedUnit === 'kelvin' && this.rightSelectedUnit === 'celsius'){
-                        this.rightScreen = this.leftScreen-273.15
-                    }else if (this.leftSelectedUnit === 'kelvin' && this.rightSelectedUnit === 'fahrenheit'){
-                        this.rightScreen = (this.leftScreen-273.15)*(9/5)+32
-                    }
-                    // RANKINE
-                    else if (this.leftSelectedUnit === 'rankine' && this.rightSelectedUnit === 'kelvin'){
-                        this.rightScreen = this.leftScreen*(5/9)
-                    }else if (this.leftSelectedUnit === 'rankine' && this.rightSelectedUnit === 'celsius'){
-                        this.rightScreen = (this.leftScreen-491.67)*(5/9)
-                    }else if (this.leftSelectedUnit === 'rankine' && this.rightSelectedUnit === 'fahrenheit'){
-                        this.rightScreen = this.leftScreen-459.67
-                    }
-                    /* AREA */
-                    /* VOLUME */
-                    /* WEIGHT */
-                    /* DATA */
-                }else if(screenChanged === 'right'){
+                } else if (screenChanged === 'right') {
                     if (this.rightSelectedUnit === this.leftSelectedUnit) {
-                        this.leftScreen = this.rightScreen
-                    /* LENGTH */
+                        this.leftScreen = this.rightScreen;
+                    } else {
+                        const conversion = conversions[this.rightSelectedUnit][this.leftSelectedUnit];
+                        if (conversion) {
+                            this.leftScreen = conversion(this.rightScreen);
+                        } else {
+                            console.error('Conversion not implemented:', this.rightSelectedUnit, 'to', this.leftSelectedUnit);
+                        }
                     }
-                    /* TEMPERATURE */
-                    // FAHRENHEIT
-                    else if (this.rightSelectedUnit === 'fahrenheit' && this.leftSelectedUnit === 'kelvin'){
-                        this.leftScreen = (this.rightScreen-32)*(5/9)+273.15
-                    }else if (this.rightSelectedUnit === 'fahrenheit' && this.leftSelectedUnit === 'celsius'){
-                        this.leftScreen = (this.rightScreen-32)*(5/9)
-                    }else if (this.rightSelectedUnit === 'fahrenheit' && this.leftSelectedUnit === 'rankine'){
-                        this.leftScreen = this.rightScreen+459.67
-                    }
-                    // CELSIUS
-                    else if (this.rightSelectedUnit === 'celsius' && this.leftSelectedUnit === 'kelvin'){
-                        this.leftScreen = this.rightScreen+273.15
-                    }else if (this.rightSelectedUnit === 'celsius' && this.leftSelectedUnit === 'fahrenheit'){
-                        this.leftScreen = this.rightScreen*(9/5)+32
-                    }else if (this.rightSelectedUnit === 'celsius' && this.leftSelectedUnit === 'rankine'){
-                        this.leftScreen = this.rightScreen*(9/5)+491.67
-                    }
-                    // KELVIN
-                    else if (this.rightSelectedUnit === 'kelvin' && this.leftSelectedUnit === 'fahrenheit'){
-                        this.leftScreen = (this.rightScreen-273.15)*(9/5)+32
-                    }else if (this.rightSelectedUnit === 'kelvin' && this.leftSelectedUnit === 'celsius'){
-                        this.leftScreen = this.rightScreen-273.15
-                    }else if (this.rightSelectedUnit === 'kelvin' && this.leftSelectedUnit === 'rankine'){
-                        this.leftScreen = (this.rightScreen-273.15)*(9/5)
-                    }
-                    // RANKINE
-                    else if (this.rightSelectedUnit === 'rankine' && this.leftSelectedUnit === 'kelvin'){
-                        this.leftScreen = this.rightScreen*(5/9)
-                    }else if (this.rightSelectedUnit === 'rankine' && this.leftSelectedUnit === 'celsius'){
-                        this.leftScreen = (this.rightScreen-491.67)*(5/9)
-                    }else if (this.rightSelectedUnit === 'rankine' && this.leftSelectedUnit === 'fahrenheit'){
-                        this.leftScreen = this.rightScreen-459.67
-                    }
-                    /* AREA */
-                    /* VOLUME */
-                    /* WEIGHT */
-                    /* DATA */
                 }
             }
         }
-    }
+    };
 </script>
