@@ -1,18 +1,18 @@
 <template>
     <div class="converter">
         <h1 class="text-lg font-semibold p-1">Unit Converter</h1>
-        <select class="select select-bordered w-full p-1 capitalize" v-model="selectedType">
+        <select class="select select-bordered select-lg w-full p-1 capitalize" v-model="selectedType">
             <option :value=null selected disabled>Select Measurement</option>
             <option v-for="measurementType in measurementTypes" :value="measurementType" class="capitalize">{{ measurementType }}</option>
         </select>
         <div class="flex flex-col w-full lg:flex-row p-1">
             <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">
-                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="leftScreen" v-if="selectedType != null"/>
-                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="leftScreen" v-else disabled/>
-                <select v-if="selectedType === null" disabled class="select select-bordered w-full max-w-xs">
+                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="leftScreen" @change="convert('left')" v-if="selectedType != null"/>
+                <input type="number" class="input input-bordered w-full max-w-xs" v-model="leftScreen" v-else disabled/>
+                <select v-if="selectedType === null" disabled class="select select-bordered select-lg w-full max-w-xs">
                     <option>Select Measurement</option>
                 </select>
-                <select class="select select-bordered w-full max-w-xs capitalize" v-model="leftSelectedUnit" v-else>
+                <select class="select select-bordered select-lg w-full max-w-xs capitalize" @change="convert('right')" v-model="leftSelectedUnit" v-else>
                     <option :value=null selected disabled>Select Unit</option>
                     <option v-if="selectedType === 'length'" v-for="unitType in unitTypes.length" :value="unitType" class="capitalize">{{ unitType }}</option>
                     <option v-if="selectedType === 'temperature'" v-for="unitType in unitTypes.temperature" :value="unitType" class="capitalize">{{ unitType }}</option>
@@ -24,12 +24,12 @@
             </div> 
             <div class="divider lg:divider-horizontal">=</div> 
             <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">
-                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="rightScreen" v-if="selectedType != null"/>
-                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="rightScreen" v-else disabled/>
-                <select v-if="selectedType === null" disabled class="select select-bordered w-full max-w-xs">
+                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="rightScreen" @change="convert('right')" v-if="selectedType != null"/>
+                <input type="number" class="input input-bordered w-full max-w-xs" v-model="rightScreen" v-else disabled/>
+                <select v-if="selectedType === null" disabled class="select select-bordered select-lg w-full max-w-xs">
                     <option>Select Measurement</option>
                 </select>
-                <select class="select select-bordered w-full max-w-xs capitalize" v-model="rightSelectedUnit" v-else>
+                <select class="select select-bordered select-lg w-full max-w-xs capitalize" @change="convert('left')" v-model="rightSelectedUnit" v-else>
                     <option :value=null selected disabled>Select Unit</option>
                     <option v-if="selectedType === 'length'" v-for="unitType in unitTypes.length" :value="unitType" class="capitalize">{{ unitType }}</option>
                     <option v-if="selectedType === 'temperature'" v-for="unitType in unitTypes.temperature" :value="unitType" class="capitalize">{{ unitType }}</option>
@@ -62,7 +62,7 @@
 
                 unitTypes: {
                     length:['kilometer', 'meter', 'centimeter', 'millimeter', 'micrometer', 'mile', 'yard', 'foot', 'inch'],
-                    temperature:['fahrenheit', 'celsius', 'kelvin'],
+                    temperature:['fahrenheit', 'celsius', 'kelvin', 'rankine'],
                     area:['square kilometer', 'square meter', 'square centimeter', 'square millimeter', 'square micrometer', 'hectare', 'square mile', 'square yard', 'square foot', 'square inch', 'acre', ],
                     volume:['cubic kilometer', 'cubic meter',  'cubic centimeter', 'cubic millimeter', 'cubic mile', 'cubic yard', 'cubic foot', 'cubic inch', 'liter', 'milliliter', 'us gallon', 'us quart', 'us pint', 'us fluid ounce', 'us table spoon', 'us tea spoon'],
                     weight:['kilogram', 'gram', 'milligram', 'metric ton', 'long ton', 'short ton', 'pound', 'ounce', 'carat'],
@@ -71,15 +71,99 @@
                 leftSelectedUnit:null,
                 rightSelectedUnit:null,
 
-                //Conversion
-
-
                 leftScreen: 0,
                 rightScreen: 0,
             }
         },
         methods: {
-            
+            convert(screenChanged){
+                // A bunch of else ifs might not be the best idea...
+                if (screenChanged === 'left'){
+                    if (this.leftSelectedUnit === this.rightSelectedUnit) {
+                        this.rightScreen = this.leftScreen
+                    /* LENGTH */
+                    }
+                    /* TEMPERATURE */
+                    // FAHRENHEIT
+                    else if (this.leftSelectedUnit === 'fahrenheit' && this.rightSelectedUnit === 'kelvin'){
+                        this.rightScreen = (this.leftScreen-32)*(5/9)+273.15
+                    }else if (this.leftSelectedUnit === 'fahrenheit' && this.rightSelectedUnit === 'celsius'){
+                        this.rightScreen = (this.leftScreen-32)*(5/9)
+                    }else if (this.leftSelectedUnit === 'fahrenheit' && this.rightSelectedUnit === 'rankine'){
+                        this.rightScreen = this.leftScreen+459.67
+                    }
+                    // CELSIUS
+                    else if (this.leftSelectedUnit === 'celsius' && this.rightSelectedUnit === 'kelvin'){
+                        this.rightScreen = this.leftScreen+273.15
+                    }else if (this.leftSelectedUnit === 'celsius' && this.rightSelectedUnit === 'fahrenheit'){
+                        this.rightScreen = this.leftScreen*(9/5)+32
+                    }else if (this.leftSelectedUnit === 'celsius' && this.rightSelectedUnit === 'rankine'){
+                        this.rightScreen = this.leftScreen*(9/5)+491.67
+                    }
+                    // KELVIN
+                    else if (this.leftSelectedUnit === 'kelvin' && this.rightSelectedUnit === 'rankine'){
+                        this.rightScreen = (this.leftScreen-273.15)*(9/5)
+                    }else if (this.leftSelectedUnit === 'kelvin' && this.rightSelectedUnit === 'celsius'){
+                        this.rightScreen = this.leftScreen-273.15
+                    }else if (this.leftSelectedUnit === 'kelvin' && this.rightSelectedUnit === 'fahrenheit'){
+                        this.rightScreen = (this.leftScreen-273.15)*(9/5)+32
+                    }
+                    // RANKINE
+                    else if (this.leftSelectedUnit === 'rankine' && this.rightSelectedUnit === 'kelvin'){
+                        this.rightScreen = this.leftScreen*(5/9)
+                    }else if (this.leftSelectedUnit === 'rankine' && this.rightSelectedUnit === 'celsius'){
+                        this.rightScreen = (this.leftScreen-491.67)*(5/9)
+                    }else if (this.leftSelectedUnit === 'rankine' && this.rightSelectedUnit === 'fahrenheit'){
+                        this.rightScreen = this.leftScreen-459.67
+                    }
+                    /* AREA */
+                    /* VOLUME */
+                    /* WEIGHT */
+                    /* DATA */
+                }else if(screenChanged === 'right'){
+                    if (this.rightSelectedUnit === this.leftSelectedUnit) {
+                        this.leftScreen = this.rightScreen
+                    /* LENGTH */
+                    }
+                    /* TEMPERATURE */
+                    // FAHRENHEIT
+                    else if (this.rightSelectedUnit === 'fahrenheit' && this.leftSelectedUnit === 'kelvin'){
+                        this.leftScreen = (this.rightScreen-32)*(5/9)+273.15
+                    }else if (this.rightSelectedUnit === 'fahrenheit' && this.leftSelectedUnit === 'celsius'){
+                        this.leftScreen = (this.rightScreen-32)*(5/9)
+                    }else if (this.rightSelectedUnit === 'fahrenheit' && this.leftSelectedUnit === 'rankine'){
+                        this.leftScreen = this.rightScreen+459.67
+                    }
+                    // CELSIUS
+                    else if (this.rightSelectedUnit === 'celsius' && this.leftSelectedUnit === 'kelvin'){
+                        this.leftScreen = this.rightScreen+273.15
+                    }else if (this.rightSelectedUnit === 'celsius' && this.leftSelectedUnit === 'fahrenheit'){
+                        this.leftScreen = this.rightScreen*(9/5)+32
+                    }else if (this.rightSelectedUnit === 'celsius' && this.leftSelectedUnit === 'rankine'){
+                        this.leftScreen = this.rightScreen*(9/5)+491.67
+                    }
+                    // KELVIN
+                    else if (this.rightSelectedUnit === 'kelvin' && this.leftSelectedUnit === 'fahrenheit'){
+                        this.leftScreen = (this.rightScreen-273.15)*(9/5)+32
+                    }else if (this.rightSelectedUnit === 'kelvin' && this.leftSelectedUnit === 'celsius'){
+                        this.leftScreen = this.rightScreen-273.15
+                    }else if (this.rightSelectedUnit === 'kelvin' && this.leftSelectedUnit === 'rankine'){
+                        this.leftScreen = (this.rightScreen-273.15)*(9/5)
+                    }
+                    // RANKINE
+                    else if (this.rightSelectedUnit === 'rankine' && this.leftSelectedUnit === 'kelvin'){
+                        this.leftScreen = this.rightScreen*(5/9)
+                    }else if (this.rightSelectedUnit === 'rankine' && this.leftSelectedUnit === 'celsius'){
+                        this.leftScreen = (this.rightScreen-491.67)*(5/9)
+                    }else if (this.rightSelectedUnit === 'rankine' && this.leftSelectedUnit === 'fahrenheit'){
+                        this.leftScreen = this.rightScreen-459.67
+                    }
+                    /* AREA */
+                    /* VOLUME */
+                    /* WEIGHT */
+                    /* DATA */
+                }
+            }
         }
     }
 </script>
