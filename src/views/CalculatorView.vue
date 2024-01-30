@@ -7,7 +7,7 @@
                     <p>{{ screen }}</p>
                 </div>
             </div>
-            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="screenClear()">C</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="screenClear()">CE</button>
             <span class="col-span-3"></span>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('9')">9</button>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('8')">8</button>
@@ -25,7 +25,8 @@
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('pi')">&pi;</button>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('.')">.</button>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('-')">-</button>
-            <span class="col-span-2"></span>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('(')">&#40;</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType(')')">&#41;</button>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg col-span-2" @click="funcEval()">=</button>
         </div>
     </div>
