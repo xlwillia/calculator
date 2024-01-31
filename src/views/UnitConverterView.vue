@@ -7,7 +7,7 @@
         </select>
         <div class="flex flex-col w-full lg:flex-row p-1">
             <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">
-                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="leftScreen" @change="convert('left')" v-if="selectedType != null"/>
+                <input type="number" class="input input-bordered w-full max-w-xs" v-model="leftScreen" @change="convert('left')" v-if="selectedType != null"/>
                 <input type="number" class="input input-bordered w-full max-w-xs" v-model="leftScreen" v-else disabled/>
                 <select v-if="selectedType === null" disabled class="select select-bordered select-lg w-full max-w-xs">
                     <option>Select Measurement</option>
@@ -24,7 +24,7 @@
             </div> 
             <div class="divider lg:divider-horizontal">=</div> 
             <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">
-                <input type="number" class="input input-bordered w-full max-w-xs" min="0" v-model="rightScreen" @change="convert('right')" v-if="selectedType != null"/>
+                <input type="number" class="input input-bordered w-full max-w-xs" v-model="rightScreen" @change="convert('right')" v-if="selectedType != null"/>
                 <input type="number" class="input input-bordered w-full max-w-xs" v-model="rightScreen" v-else disabled/>
                 <select v-if="selectedType === null" disabled class="select select-bordered select-lg w-full max-w-xs">
                     <option>Select Measurement</option>
@@ -681,36 +681,36 @@
                     'bit': {
                         'byte': (value) => value / 8,
                         'kilobit': (value) => value * 0.001,
-                        'kilobyte': (value) => value * 0.000125,
+                        'kilobyte': (value) => value / 8000,
                         'megabit': (value) => value * 0.000001,
-                        'megabyte': (value) => value * 0.000000125,
+                        'megabyte': (value) => value / 8000000,
                         'gigabit': (value) => value * 0.000000001,
-                        'gigabyte': (value) => value * 0.000000000125,
+                        'gigabyte': (value) => value / 8000000000,
                         'terabit': (value) => value * 0.000000000001,
-                        'terabyte': (value) => value * 0.000000000000125,
+                        'terabyte': (value) => value / 8000000000000,
                         'petabit': (value) => value * 0.000000000000001,
-                        'petabyte': (value) => value * 0.00000000000000125,
+                        'petabyte': (value) => value / 8000000000000000,
                         'exabit': (value) => value * 0.00000000000000001,
-                        'exabyte': (value) => value * 0.00000000000000000125,
+                        'exabyte': (value) => value / 8000000000000000000n,
                     },
                     'byte': {
                         'bit': (value) => value * 8,
+                        'kilobit': (value) => value / 125,
                         'kilobyte': (value) => value / 1000,
+                        'megabit': (value) => value / 125000,
                         'megabyte': (value) => value / 1000000,
+                        'gigabit': (value) => value / 125000000,
                         'gigabyte': (value) => value / 1000000000,
+                        'terabit': (value) => value / 125000000000,
                         'terabyte': (value) => value / 1000000000000,
+                        'petabit': (value) => value / 125000000000000,
                         'petabyte': (value) => value / 1000000000000000,
+                        'exabit': (value) => value / 125000000000000000n,
                         'exabyte': (value) => value / 1000000000000000000n,
-                        'kibibyte': (value) => value / 1024,
-                        'mebibyte': (value) => value / 1048576,
-                        'gibibyte': (value) => value / 1073741824,
-                        'tebibyte': (value) => value / 1099511627776,
-                        'pebibyte': (value) => value / 1125899906842624,
-                        'exbibyte': (value) => value / 1152921504606846976n,
                     },
                     'kilobit': {
-                        'bit': (value) => value * 1000,
-                        'byte': (value) => value * 125,
+                        'bit': (value) => value * 1024,
+                        'byte': (value) => value * 128,
                         'kilobyte': (value) => value * 0.125,
                         'megabit': (value) => value * 0.001,
                         'megabyte': (value) => value * 0.000125,
@@ -722,21 +722,20 @@
                         'petabyte': (value) => value * 0.00000000000125,
                         'exabit': (value) => value * 0.00000000000001,
                         'exabyte': (value) => value * 0.0000000000000125,
-
                     },
                     'kilobyte': {
                         'bit': (value) => value * 8192,
                         'byte': (value) => value * 1024,
-                        'kilobit': (value) => value * 8,
-                        'megabit': (value) => value * 0.008,
+                        'kilobit': (value) => value * 0.125,
+                        'megabit': (value) => value * 0.00125,
                         'megabyte': (value) => value * 0.001,
-                        'gigabit': (value) => value * 0.000008,
+                        'gigabit': (value) => value * 0.00000125,
                         'gigabyte': (value) => value * 0.000001,
-                        'terabit': (value) => value * 0.000000008,
+                        'terabit': (value) => value * 0.00000000125,
                         'terabyte': (value) => value * 0.000000001,
-                        'petabit': (value) => value * 0.000000000008,
+                        'petabit': (value) => value * 0.00000000000125,
                         'petabyte': (value) => value * 0.000000000001,
-                        'exabit': (value) => value * 0.000000000000008,
+                        'exabit': (value) => value * 0.00000000000000125,
                         'exabyte': (value) => value * 0.000000000000001,
                     },
                     'megabit': {
@@ -872,6 +871,7 @@
                         'terabyte': (value) => value * 125000,
                         'petabit': (value) => value * 1000,
                         'petabyte': (value) => value * 125,
+                        'exabyte': (value) => value / 8
                     },
                     'exabyte': {
                         'bit': (value) => value * 8000000000000000000n,
@@ -886,6 +886,7 @@
                         'terabyte': (value) => value * 1000000000000000000000000000000n,
                         'petabit': (value) => value * 8000000000000000000000000000000000n,
                         'petabyte': (value) => value * 1000000000000000000000000000000000n,
+                        'exabit': (value) => value * 8
                     },
                 };
 
