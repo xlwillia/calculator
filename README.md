@@ -1,6 +1,8 @@
 # Calculator
 
-This is a calculation multitool made using Vue, Vite, Tailwind, daisyUI, and mathjs
+This is a calculation multitool made using Vue, Vite, Tailwind, and daisyUI.
+The calculator depends on mathjs and the currency converter depends on data 
+from the European Central Bank using Frankfurter API.
 
 ## Project Setup
 
@@ -18,10 +20,4 @@ npm run dev
 
 ```sh
 npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
 ```
