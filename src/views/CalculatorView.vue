@@ -4,7 +4,7 @@
         <div class="grid grid-cols-4 gap-1">
             <div class="card border-solid border-4 border-secondary col-span-4">
                 <div class="card-body">
-                    <p>{{ screen }}</p>
+                    <output>{{ screen }}</output>
                 </div>
             </div>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="screenClear()">CE</button>
