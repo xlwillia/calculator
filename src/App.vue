@@ -19,15 +19,15 @@
   </main>
 
   <div class="btm-nav lg:hidden">
-    <button class="text-primary">
+    <button class="text-primary" @click="$router.push('/')">
       <span class="material-symbols-outlined">calculate</span>
       <p>Calculator</p>
     </button>
-    <button class="text-primary active">
+    <button class="text-primary" @click="$router.push('unitconverter')">
       <span class="material-symbols-outlined">measuring_tape</span>
       <p>Unit Converter</p>
     </button>
-    <button class="text-primary">
+    <button class="text-primary" @click="$router.push('currencyconverter')">
       <span class="material-symbols-outlined">currency_exchange</span>
       <p>Currency Converter</p>
     </button>
