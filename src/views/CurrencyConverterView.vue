@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    <p>Information Gathered from the <strong>European Central Bank</strong> using <strong>Frankfurter API</strong></p>
+    <p>Information Gathered from the <strong class="text-info">European Central Bank</strong> using <strong class="text-info">Frankfurter API</strong></p>
 </template>
 <script>
     export default {
