@@ -2,7 +2,7 @@
   <header class="sm:max-lg:hidden">
     <div class="navbar bg-base-100">
       <div class="flex-1">
-        <p class="text-xl">MultiTool</p>
+        <h1 class="text-xl">MultiTool</h1>
       </div>
       <div class="flex-none">
         <ul class="menu menu-horizontal px-1">
