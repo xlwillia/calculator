@@ -8,7 +8,9 @@
                 </div>
             </div>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="screenClear()">CE</button>
-            <span class="col-span-3"></span>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('sqrt(')">&Sqrt;x</button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('^(')">x<sup>2</sup></button>
+            <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('%')">%</button>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('9')">9</button>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('8')">8</button>
             <button type="button" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" @click="keypadType('7')">7</button>
