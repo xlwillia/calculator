@@ -19,7 +19,7 @@
   </main>
 
   <div class="btm-nav lg:hidden">
-    <button id="calculatorNavBtn" class="text-primary" @click="[$router.push('/'), activeNavButton('calculator')]">
+    <button id="calculatorNavBtn" class="text-primary active" @click="[$router.push('/'), activeNavButton('calculator')]">
       <span class="material-symbols-outlined">calculate</span>
       <p>Calculator</p>
     </button>
