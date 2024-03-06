@@ -20,37 +20,17 @@ export default defineConfig({
         description: "A Calculator/Unit Converter/Currency Converter made using Vue!",
         display: "standalone",
         icons: [
-          {
-            "src": "src/assets/images/calculator_icon_48.jpg",
-            "sizes": "48x48",
-            "type": "image/png"
-          },
-          {
-            "src": "src/assets/images/calculator_icon_72.jpg",
-            "sizes": "72x72",
-            "type": "image/png"
-          },
-          {
-            "src": "src/assets/images/calculator_icon_96.jpg",
-            "sizes": "96x96",
-            "type": "image/png"
-          },
-          {
-            "src": "src/assets/images/calculator_icon_144.jpg",
-            "sizes": "144x144",
-            "type": "image/png"
-          },
-          {
-            "src": "src/assets/images/calculator_icon_168.jpg",
-            "sizes": "168x168",
-            "type": "image/png"
-          },
-          {
-            "src": "src/assets/images/calculator_icon_192.jpg",
-            "sizes": "192x192",
-            "type": "image/png"
-          }
-        ],
+            {
+              src: 'pwa-192x192.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: 'pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png'
+            }
+          ],
         orientation: "portrait-primary"
       }
   }),
